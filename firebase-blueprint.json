@@ -1,0 +1,58 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the dental clinic application",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Full name of the user" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "role": { "type": "string", "enum": ["patient", "admin"], "description": "Role of the user" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["uid", "name", "email", "role", "createdAt"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "A dental appointment booking",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string", "description": "UID of the patient" },
+        "patientName": { "type": "string", "description": "Name of the patient" },
+        "phone": { "type": "string", "description": "Contact phone number" },
+        "date": { "type": "string", "description": "Date of the appointment (YYYY-MM-DD)" },
+        "time": { "type": "string", "description": "Time of the appointment (HH:MM)" },
+        "service": { "type": "string", "description": "Requested service" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "cancelled"], "description": "Status of the appointment" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["patientId", "patientName", "phone", "date", "time", "service", "status", "createdAt"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "A dental service offered by the clinic",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the service" },
+        "description": { "type": "string", "description": "Description of the service" },
+        "price": { "type": "number", "description": "Price of the service" }
+      },
+      "required": ["name", "description", "price"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Collection of users"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Collection of appointments"
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "Collection of services"
+    }
+  }
+}
